@@ -14,27 +14,43 @@ datasource db {
 }
 
 model Dog {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String?
   slug        String
   image       String?
-  // breed    String
   titles      String?
   sire        String?
   dam         String?
-  sex         Boolean @default(true)
+  sex         Boolean   @default(true)
   size        Int?
   weight      Int?
   dateOfBirth DateTime?
   dateOfDeath DateTime?
   color       String?
+  country     Country?  @relation(fields: [countryId], references: [id])
+  countryId   Int?
   breeder     String?
   kennel      String?
   owner       String?
   notes       String?
-  // category   Category? @relation(fields: [categoryId], references: [id])
-  // categoryId Int?
-  // tags       Tag[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  breed       Breed?    @relation(fields: [breedId], references: [id])
+  breedId     Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Breed {
+  id        Int      @id @default(autoincrement())
+  name      String
+  dogs      Dog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Country {
+  id        Int      @id @default(autoincrement())
+  name      String
+  dogs      Dog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
