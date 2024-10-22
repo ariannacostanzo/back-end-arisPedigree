@@ -698,7 +698,7 @@ async function deleteAll(entity) {
   }
 }
 
-createAllCountries();
-createAllBreeds();
+// createAllCountries();
+// createAllBreeds();
 
 // node .\utils\seeder.js
