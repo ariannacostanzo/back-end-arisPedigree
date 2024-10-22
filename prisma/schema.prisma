@@ -50,6 +50,7 @@ model Breed {
 model Country {
   id        Int      @id @default(autoincrement())
   name      String
+  code      String
   dogs      Dog[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
