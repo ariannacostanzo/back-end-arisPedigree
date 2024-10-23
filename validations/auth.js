@@ -61,7 +61,7 @@ const registerBody = {
 
 const loginBody = {
   emailOrUsername: {
-    in: ["body"],
+    in: ["body"], 
     notEmpty: {
       errorMessage: "Please insert an email or username",
       bail: true,
@@ -70,7 +70,7 @@ const loginBody = {
   password: {
     in: ["body"],
     notEmpty: {
-      errorMessage: "Please insert a password",
+      errorMessage: "Please insert a password", 
       bail: true,
     },
     isString: {

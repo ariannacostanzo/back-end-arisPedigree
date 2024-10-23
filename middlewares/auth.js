@@ -6,11 +6,12 @@ module.exports = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    throw new Error("missing token");
+    return res.status(401).json({ message: "Missing token" });
   }
 
   jtw.verify(token, process.env.JTW_SECRET_KEY, (err, data) => {
-    if (err) throw new Error("invalid token");
+     if (err) return res.status(403).json({ message: "Invalid token" }); 
+     
 
     req.user = data;
     next();
