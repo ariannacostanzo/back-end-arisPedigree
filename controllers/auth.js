@@ -11,7 +11,7 @@ const login = async (req, res) => {
        where: {
          OR: [
            { email: emailOrUsername }, 
-           { name: emailOrUsername }, 
+           { name: emailOrUsername },  
          ],
        },
      });
@@ -22,7 +22,7 @@ const login = async (req, res) => {
 
     const isPasswordValid = await comparePassword(password, user.password);
 
-    if (!isPasswordValid) throw possibleMistake;
+    if (!isPasswordValid) throw possibleMistake;    
 
     const data = {
       id: user.id,

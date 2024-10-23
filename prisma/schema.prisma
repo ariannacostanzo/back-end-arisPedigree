@@ -7,57 +7,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model breed {
+model Breed {
   id        Int      @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
+  dogs      Dog[]
 }
 
-model country {
+model Country {
   id        Int      @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now())
-  updatedAt DateTime
-  code      String   @unique(map: "Country_code_key")
+  updatedAt DateTime @updatedAt
+  code      String   @unique
+  dogs      Dog[]
 }
 
-model dog {
-  id             Int       @id @default(autoincrement())
-  name           String?
-  slug           String
-  image          String?
-  titles         String?
-  sireId         Int? // Foreign key verso il padre
-  damId          Int? // Foreign key verso la madre
-  sire           dog?      @relation("FatherRelation", fields: [sireId], references: [id])
-  dam            dog?      @relation("MotherRelation", fields: [damId], references: [id])
-  childrenAsSire dog[]     @relation("FatherRelation") // Relazione per i figli
-  childrenAsDam  dog[]     @relation("MotherRelation") // Relazione per i figli
-  sex            Boolean   @default(true)
-  size           Int?
-  weight         Int?
-  dateOfBirth    DateTime?
-  dateOfDeath    DateTime?
-  color          String?
-  countryId      Int?
-  breeder        String?
-  kennel         String?
-  owner          String?
-  notes          String?
-  breedId        Int?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime
+model Dog {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  slug   String
+  image  String?
+  titles String?
+  sireId Int? 
+  damId  Int? 
+  sire   Dog?    @relation("SireRelation", fields: [sireId], references: [id])
+  dam    Dog?    @relation("DamRelation", fields: [damId], references: [id])
+  childrenAsSire Dog[] @relation("SireRelation") // Relazione per i figli, mostra i bambini da padre
+  childrenAsDam  Dog[] @relation("DamRelation") // Relazione per i figli, mostra i bambini da madre
 
-  @@index([breedId], map: "Dog_breedId_fkey")
-  @@index([countryId], map: "Dog_countryId_fkey")
+  sex         Boolean   @default(true)
+  size        Int?
+  weight      Int?
+  dateOfBirth DateTime?
+  dateOfDeath DateTime?
+  color       String?
+
+  breeder   String?
+  kennel    String?
+  owner     String?
+  notes     String?
+  // breed
+  breedId   Int?
+  breed     Breed?   @relation(fields: [breedId], references: [id])
+  //country
+  countryId Int?
+  country   Country? @relation(fields: [countryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model user {
+model User {
   id        Int      @id @default(autoincrement())
-  email     String   @unique(map: "User_email_key")
-  name      String   @unique(map: "User_name_key")
+  email     String   @unique
+  name      String   @unique
   password  String
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
 }

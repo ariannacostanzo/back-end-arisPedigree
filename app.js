@@ -24,7 +24,7 @@ app.use(express.json());
 app.use('/auth', authRouter)
 app.use("/countries", countryRouter); 
 app.use("/breeds", breedRouter); 
-app.use("/dogs", breedRouter); 
+app.use("/dogs", dogRouter); 
 
 
 //avvio del server

@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `breed` (
+CREATE TABLE `Breed` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -9,7 +9,7 @@ CREATE TABLE `breed` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `country` (
+CREATE TABLE `Country` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -21,7 +21,7 @@ CREATE TABLE `country` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `dog` (
+CREATE TABLE `Dog` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NULL,
     `slug` VARCHAR(191) NOT NULL,
@@ -35,22 +35,20 @@ CREATE TABLE `dog` (
     `dateOfBirth` DATETIME(3) NULL,
     `dateOfDeath` DATETIME(3) NULL,
     `color` VARCHAR(191) NULL,
-    `countryId` INTEGER NULL,
     `breeder` VARCHAR(191) NULL,
     `kennel` VARCHAR(191) NULL,
     `owner` VARCHAR(191) NULL,
     `notes` VARCHAR(191) NULL,
     `breedId` INTEGER NULL,
+    `countryId` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    INDEX `Dog_breedId_fkey`(`breedId`),
-    INDEX `Dog_countryId_fkey`(`countryId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `user` (
+CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
@@ -64,7 +62,13 @@ CREATE TABLE `user` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `dog` ADD CONSTRAINT `dog_sireId_fkey` FOREIGN KEY (`sireId`) REFERENCES `dog`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Dog` ADD CONSTRAINT `Dog_sireId_fkey` FOREIGN KEY (`sireId`) REFERENCES `Dog`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `dog` ADD CONSTRAINT `dog_damId_fkey` FOREIGN KEY (`damId`) REFERENCES `dog`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Dog` ADD CONSTRAINT `Dog_damId_fkey` FOREIGN KEY (`damId`) REFERENCES `Dog`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Dog` ADD CONSTRAINT `Dog_breedId_fkey` FOREIGN KEY (`breedId`) REFERENCES `Breed`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Dog` ADD CONSTRAINT `Dog_countryId_fkey` FOREIGN KEY (`countryId`) REFERENCES `Country`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

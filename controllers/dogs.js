@@ -7,7 +7,7 @@ const store = async (req, res) => {
     name,
     slug,
     image,
-    titles,
+    titles, 
     sireId,
     damId,
     sex,
@@ -27,7 +27,7 @@ const store = async (req, res) => {
   const data = {
     name,
     slug,
-    image,
+    image, 
     titles,
     sireId,
     damId,
@@ -57,13 +57,15 @@ const index = async (req, res) => {
   try {
     const dogs = await prisma.dog.findMany({
       include: {
-        sire: true, 
-        dam: true, 
-        country: true,
         breed: true,
+        country: true,
+        childrenAsSire: true,
+        childrenAsDam: true,
+        sire: true,
+        dam: true
       },
     });
-    res.status(200).send(dogs);
+    res.status(200).send(dogs); 
   } catch (error) {
     errorHandlerFunction(error);
   }
@@ -80,7 +82,7 @@ const destroy = async (req, res) => {
     errorHandlerFunction(res, err);
   }
 };
-
+ 
 module.exports = {
   store,
   index,
