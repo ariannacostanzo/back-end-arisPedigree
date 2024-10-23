@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/auth.js')
 
 router.post("/", authMiddleware, dogsController.store);
 router.get("/", dogsController.index);
+router.get("/allDogs", dogsController.indexAll);
 router.delete("/:id", dogsController.destroy);
 
 module.exports = router;

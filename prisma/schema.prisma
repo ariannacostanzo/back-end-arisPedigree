@@ -38,8 +38,8 @@ model Dog {
   childrenAsDam  Dog[] @relation("DamRelation") // Relazione per i figli, mostra i bambini da madre
 
   sex         Boolean   @default(true)
-  size        Int?
-  weight      Int?
+  size        String?
+  weight      String?
   dateOfBirth DateTime?
   dateOfDeath DateTime?
   color       String?
