@@ -25,17 +25,17 @@ model Country {
 }
 
 model Dog {
-  id     Int     @id @default(autoincrement())
-  name   String?
-  slug   String
-  image  String?
-  titles String?
-  sireId Int? 
-  damId  Int? 
-  sire   Dog?    @relation("SireRelation", fields: [sireId], references: [id])
-  dam    Dog?    @relation("DamRelation", fields: [damId], references: [id])
-  childrenAsSire Dog[] @relation("SireRelation") // Relazione per i figli, mostra i bambini da padre
-  childrenAsDam  Dog[] @relation("DamRelation") // Relazione per i figli, mostra i bambini da madre
+  id             Int     @id @default(autoincrement())
+  name           String
+  slug           String
+  image          String?
+  titles         String?
+  sireId         Int?
+  damId          Int?
+  sire           Dog?    @relation("SireRelation", fields: [sireId], references: [id])
+  dam            Dog?    @relation("DamRelation", fields: [damId], references: [id])
+  childrenAsSire Dog[]   @relation("SireRelation") // Relazione per i figli, mostra i bambini da padre
+  childrenAsDam  Dog[]   @relation("DamRelation") // Relazione per i figli, mostra i bambini da madre
 
   sex         Boolean   @default(true)
   size        String?
@@ -48,12 +48,18 @@ model Dog {
   kennel    String?
   owner     String?
   notes     String?
-  // breed
-  breedId   Int?
-  breed     Breed?   @relation(fields: [breedId], references: [id])
-  //country
-  countryId Int?
-  country   Country? @relation(fields: [countryId], references: [id])
+
+  // breed, non opzionale
+  breedId   Int
+  breed     Breed   @relation(fields: [breedId], references: [id])
+
+  //country, non opzionale
+  countryId Int
+  country   Country @relation(fields: [countryId], references: [id])
+
+  //user a cui è legato, non opzionale
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -64,6 +70,7 @@ model User {
   email     String   @unique
   name      String   @unique
   password  String
+  dogs      Dog[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

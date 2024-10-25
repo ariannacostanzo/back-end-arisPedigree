@@ -7,7 +7,7 @@ const countries = [
   { name: "Albania", code: "AL" },
   { name: "Algeria", code: "DZ" },
   { name: "American Samoa", code: "AS" },
-  { name: "AndorrA", code: "AD" },
+  { name: "Andorra", code: "AD" },
   { name: "Angola", code: "AO" },
   { name: "Anguilla", code: "AI" },
   { name: "Antarctica", code: "AQ" },
@@ -827,8 +827,8 @@ const createAllDogs = () => {
     .catch((err) => console.error(err));
 }
 
-// createAllCountries();
-// createAllBreeds();
-createAllDogs(); 
+createAllCountries();
+createAllBreeds();
+// createAllDogs(); 
 
 // node .\utils\seeder.js
