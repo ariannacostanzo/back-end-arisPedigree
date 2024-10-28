@@ -11,6 +11,7 @@ const authRouter = require("./routes/auth.js");
 
 const auth = require("./middlewares/auth.js"); //da usare nella rotta di creazione cane
 
+
 app.use("/uploads", express.static("uploads"));
 
 //env
@@ -21,6 +22,9 @@ app.use(cors());
 
 //per leggere i json
 app.use(express.json());
+
+
+
 
 //rotte
 app.use('/auth', authRouter)
