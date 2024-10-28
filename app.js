@@ -11,6 +11,8 @@ const authRouter = require("./routes/auth.js");
 
 const auth = require("./middlewares/auth.js"); //da usare nella rotta di creazione cane
 
+app.use("/uploads", express.static("uploads"));
+
 //env
 require("dotenv").config();
 const port = 8000;

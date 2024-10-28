@@ -1,12 +1,14 @@
 const { PrismaClient } = require("@prisma/client");
 const errorHandlerFunction = require("../utils/errorHandlerFunction");
 const prisma = new PrismaClient();
+const baseUrl = "http://localhost:8000";
 
 const store = async (req, res) => {
+  const imageUrl = req.file ? `${baseUrl}/uploads/${req.file.filename}` : null;
+  console.log("Image URL:", imageUrl);
   const {
     name,
     slug,
-    image,
     titles,
     sireId,
     damId,
@@ -27,24 +29,28 @@ const store = async (req, res) => {
 
   const data = {
     name,
-    slug,
-    image,
+    slug: name
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-"),
+    image: imageUrl,
     titles,
-    sireId,
-    damId,
-    sex,
-    size,
-    weight,
-    dateOfBirth,
-    dateOfDeath,
+    sireId: sireId ? parseInt(sireId) : null,
+    damId: damId ? parseInt(damId) : null,
+    sex: sex === "true",
+    size: size === "null" ? null : size,
+    weight: weight === "null" ? null : weight,
+    dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
+    dateOfDeath: dateOfDeath ? new Date(dateOfDeath) : null,
     color,
-    countryId,
+    countryId: countryId ? parseInt(countryId) : null,
     breeder,
     kennel,
     owner,
     notes,
-    breedId,
-    userId,
+    breedId: parseInt(breedId),
+    userId: parseInt(userId),
   };
 
   try {
@@ -110,6 +116,53 @@ const indexAll = async (req, res) => {
     errorHandlerFunction(res, error);
   }
 };
+
+const show = async(req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const post = await prisma.dog.findUnique({
+      where: { id },
+      include: {
+        breed: true,
+        country: true,
+        childrenAsSire: true,
+        childrenAsDam: true,
+        sire: true,
+        dam: true,
+        user: true,
+      },
+    });
+    res.status(200).json(post);
+  } catch (err) {
+    errorHandlerFunction(res, err); 
+  }
+}
+
+const update = async (req, res) => {
+  const id = parseInt(req.params.id);
+  const imageUrl = req.file ? `${baseUrl}/uploads/${req.file.filename}` : null;
+
+  
+  const data = {};
+
+  
+  if (imageUrl) {
+    data.image = imageUrl;
+  }
+
+  try {
+    
+    const dog = await prisma.dog.update({
+      where: { id },
+      data: Object.keys(data).length ? data : undefined, 
+    });
+
+    res.status(200).json({ message: `You modified the dog image`, data: dog });
+  } catch (err) {
+    errorHandlerFunction(res, err);
+  }
+};
+
 
 const findSire = async (req, res) => {
   const { breedId, name } = req.query;
@@ -180,7 +233,28 @@ const findDam = async (req, res) => {
 const destroy = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const dog = await prisma.dog.delete({
+    const dog = await prisma.dog.findUnique({
+      where: { id },
+    });
+
+    if (!dog) {
+      return res.status(404).json({ message: "Dog not found" });
+    }
+    // Elimina l'immagine associata se esiste
+    if (dog.image) {
+      const imageName = dog.image.split("/").pop();
+      const imagePath = path.join(__dirname, "../uploads", imageName);
+
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Errore durante l'eliminazione dell'immagine:", err);
+        } else {
+          console.log("Immagine eliminata:", dog.image);
+        }
+      });
+    }
+
+    await prisma.dog.delete({
       where: { id },
     });
     res.status(200).json([dog, `Hai eliminato il cane ${dog.name}`]);
@@ -196,4 +270,6 @@ module.exports = {
   indexAll,
   findSire,
   findDam,
+  show,
+  update
 };

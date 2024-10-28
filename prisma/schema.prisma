@@ -25,33 +25,33 @@ model Country {
 }
 
 model Dog {
-  id             Int     @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   name           String
   slug           String
   image          String?
   titles         String?
   sireId         Int?
   damId          Int?
-  sire           Dog?    @relation("SireRelation", fields: [sireId], references: [id])
-  dam            Dog?    @relation("DamRelation", fields: [damId], references: [id])
-  childrenAsSire Dog[]   @relation("SireRelation") // Relazione per i figli, mostra i bambini da padre
-  childrenAsDam  Dog[]   @relation("DamRelation") // Relazione per i figli, mostra i bambini da madre
+  sire           Dog?      @relation("SireRelation", fields: [sireId], references: [id])
+  dam            Dog?      @relation("DamRelation", fields: [damId], references: [id])
+  childrenAsSire Dog[]     @relation("SireRelation") // Relazione per i figli, mostra i bambini da padre
+  childrenAsDam  Dog[]     @relation("DamRelation") // Relazione per i figli, mostra i bambini da madre
+  views          Int       @default(0)
+  sex            Boolean   @default(true)
+  size           String?
+  weight         String?
+  dateOfBirth    DateTime?
+  dateOfDeath    DateTime?
+  color          String?
 
-  sex         Boolean   @default(true)
-  size        String?
-  weight      String?
-  dateOfBirth DateTime?
-  dateOfDeath DateTime?
-  color       String?
-
-  breeder   String?
-  kennel    String?
-  owner     String?
-  notes     String?
+  breeder String?
+  kennel  String?
+  owner   String?
+  notes   String?
 
   // breed, non opzionale
-  breedId   Int
-  breed     Breed   @relation(fields: [breedId], references: [id])
+  breedId Int
+  breed   Breed @relation(fields: [breedId], references: [id])
 
   //country, non opzionale
   countryId Int
