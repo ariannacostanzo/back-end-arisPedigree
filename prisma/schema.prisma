@@ -47,7 +47,7 @@ model Dog {
   breeder String?
   kennel  String?
   owner   String?
-  notes   String?
+  notes   String? @db.Text
 
   // breed, non opzionale
   breedId Int

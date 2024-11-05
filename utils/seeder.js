@@ -1,5 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
+const { hashPassword } = require("./password");
 const prisma = new PrismaClient();
+const fs = require("fs");
+const path = require("path");
 
 const countries = [
   { name: "Afghanistan", code: "AF" },
@@ -671,123 +674,105 @@ const breeds = [
 
 const dogs = [
   {
-    name: "Buddy",
-    slug: "buddy",
+    name: "Jackstaff fasination",
+    slug: "jackstaff-fasination",
+    titles: "GB Ch.",
     image:
-      "https://animalxop.com/cdn/shop/articles/6e4eccbc-4158-46e2-9083-28f2149ea4ea_345x300_crop_center.jpg?v=1701897648",
-    titles: "Cane da terapia",
+      "https://arispedigreeonline.com/wp-content/uploads/dogImages/6_1639234742_med_49984e8256bd3.jpg",
+    sireId: null,
+    damId: null,
+    views: 0,
     sex: true,
-    size: "55 kg",
-    weight: "25 kg",
-    dateOfBirth: "2021-05-10T00:00:00Z",
+    size: "60 cm",
+    weight: "30 kg",
+    dateOfBirth: "1196-01-16T00:00:00.000Z",
     dateOfDeath: null,
-    color: "Marrone",
-    countryId: 1,
-    breeder: "Francesca Bianchi",
-    kennel: "Allevamento del Sole",
-    owner: "Carla Neri",
-    notes: "Amichevole e socievole.",
-    breedId: 3,
+    color: "brown",
+    breeder: "Breeder A",
+    kennel: "Central kennel",
+    owner: "July",
+    notes: "A very affectionate dog",
+    breedId: 2,
+    countryId: 229,
+    userId: 1,
   },
   {
-    name: "Luna",
-    slug: "luna",
+    name: "Esquel del Chubut",
+    slug: "esquel-del-chubut",
     image:
-      "https://www.dogster.com/wp-content/uploads/2024/03/alano-espanol_miguel-curiel-mena_Shutterstock.jpg",
-    titles: "Cane da compagnia",
-    sex: false,
-    size: "55 kg",
-    weight: "55 kg",
-    dateOfBirth: "2020-09-25T00:00:00Z",
-    dateOfDeath: null,
-    color: "Bianco",
-    countryId: 1,
-    breeder: "Marco Verdi",
-    kennel: "Allevamento della Luna",
-    owner: "Sara Rossi",
-    notes: "Intelligente e affettuosa.",
-    breedId: 3,
-  },
-  {
-    name: "Figlia di Luna e buddy",
-    slug: "figlia-di-luna-e-buddy",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Spanishalanobrindle4.jpg/640px-Spanishalanobrindle4.jpg",
-    titles: "Cane da compagnia",
-    sex: false,
-    size: "55 kg",
-    weight: "55 kg",
-    dateOfBirth: "2020-09-25T00:00:00Z",
-    dateOfDeath: null,
-    color: "Bianco",
-    countryId: 1,
-    breeder: "Marco Verdi",
-    kennel: "Allevamento della Luna",
-    owner: "Sara Rossi",
-    notes: "Intelligente e affettuosa.",
-    breedId: 3,
-    sireId: 1,
-    damId: 2,
-  },
-  {
-    name: "Bimbo",
-    slug: "bimbo",
-    image:
-      "https://cdn.royalcanin-weshare-online.io/NyLkHWsBaxEApS7LaR3j/v5/bd121h-hub-affenpinscher-adult-black-and-white",
-    titles: "Cane da terapia",
+      "https://arispedigreeonline.com/wp-content/uploads/dogImages/6_1639236841_med_51aa5b3d2b1f0.jpg",
+    titles: null,
+    sireId: null,
+    damId: null,
+    views: 0,
     sex: true,
-    size: "55 kg",
-    weight: "55 kg",
-    dateOfBirth: "2021-05-10T00:00:00Z",
+    size: "30 cm",
+    weight: "15 kg",
+    dateOfBirth: "2015-05-12T00:00:00.000Z",
     dateOfDeath: null,
-    color: "Marrone",
-    countryId: 1,
-    breeder: "Francesca Bianchi",
-    kennel: "Allevamento del Sole",
-    owner: "Carla Neri",
-    notes: "Amichevole e socievole.",
-    breedId: 1,
+    color: "white",
+    breeder: null,
+    kennel: null,
+    owner: null,
+    notes: null,
+    breedId: 10,
+    countryId: 11,
+    userId: 1,
   },
   {
-    name: "Stella",
-    slug: "stella",
+    name: "雅拉（Yala）",
+    slug: "雅-yala",
+    titles: "Snow Tibetan Mastiff",
     image:
-      "https://pet-health-content-media.chewy.com/wp-content/uploads/2024/09/11170124/202106affenpinscher-2.jpg",
-    titles: "Cane da compagnia",
+      "https://arispedigreeonline.com/wp-content/uploads/dogImages/9_1641369330_%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20211222191336.jpg",
+    sireId: null,
+    damId: null,
+    views: 0,
     sex: false,
-    size: "55 kg",
-    weight: "55 kg",
-    dateOfBirth: "2020-09-25T00:00:00Z",
+    size: "50 cm",
+    weight: "48 kg",
+    dateOfBirth: "2019-01-26T00:00:00.000Z",
     dateOfDeath: null,
-    color: "Bianco",
-    countryId: 1,
-    breeder: "Marco Verdi",
-    kennel: "Allevamento della Luna",
-    owner: "Sara Rossi",
-    notes: "Intelligente e affettuosa.",
-    breedId: 1,
-  },
-  {
-    name: "Figlia di Luna e buddy",
-    slug: "figlia-di-luna-e-buddy",
-    image: "https://www.kokogenetics.com/_nuxt/img/1.6778970.webp",
-    titles: "Cane da compagnia",
-    sex: false,
-    size: "55 kg",
-    weight: "55 kg",
-    dateOfBirth: "2020-09-25T00:00:00Z",
-    dateOfDeath: null,
-    color: "Bianco",
-    countryId: 1,
-    breeder: "Marco Verdi",
-    kennel: "Allevamento della Luna",
-    owner: "Sara Rossi",
-    notes: "Intelligente e affettuosa.",
-    breedId: 1,
-    sireId: 4,
-    damId: 5,
+    color: "white",
+    breeder: "Breeder B",
+    kennel: "Canile del Nord",
+    owner: "Marco",
+    notes: "Molto energetica e intelligente",
+    breedId: 149,
+    countryId: 45,
+    userId: 1,
   },
 ];
+
+const users = [
+  {
+    email : "user@admin.it",
+    name: "admin",
+    password: "password"
+  }
+]
+
+
+
+const createUser = async () => {
+  try {
+    const hashedUsers = await Promise.all(
+      users.map(async (user) => ({
+        ...user,
+        password: await hashPassword(user.password),
+      }))
+    );
+
+    // Creazione utenti con password hashata
+    const result = await prisma.user.createMany({
+      data: hashedUsers,
+    });
+
+    console.log(result.count);
+  } catch (error) {
+    console.error("Errore nella creazione utenti:", error);
+  }
+};
 
 const createAllCountries = () => {
   prisma.country
@@ -827,8 +812,9 @@ const createAllDogs = () => {
     .catch((err) => console.error(err));
 }
 
-createAllCountries();
-createAllBreeds();
-// createAllDogs(); 
+// createAllCountries();
+// createAllBreeds();
+// createUser();
+createAllDogs(); 
 
 // node .\utils\seeder.js

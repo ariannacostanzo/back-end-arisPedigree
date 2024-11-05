@@ -59,10 +59,16 @@ const bodyData = {
     },
     custom: {
       options: async (value) => {
-        const countryId = parseInt(value);
+        const countryId = Number(value); 
+        if (isNaN(countryId)) {
+          
+          throw new Error("Invalid country ID");
+        }
+
         const country = await prisma.country.findUnique({
           where: { id: countryId },
         });
+
         if (!country) {
           throw new Error("This country doesn't exist");
         }
@@ -87,26 +93,17 @@ const bodyData = {
       },
     },
   },
-  //   image: {
-  //     optional: true,
-  //     custom: {
-  //       options: (value, { req }) => {
-  //         if (!req.file) {
-  //           return true;
-  //         }
-  //         const validMimeTypes = ["image/jpeg", "image/png"];
-  //         if (!validMimeTypes.includes(req.file.mimetype)) {
-  //           throw new Error("Solo file JPEG o PNG sono accettati");
-  //         }
-  //         const maxFileSize = 5 * 1024 * 1024; // 5MB
-  //         if (req.file.size > maxFileSize) {
-  //           throw new Error("Il file immagine deve essere inferiore a 5MB");
-  //         }
-  //         return true;
-  //       },
-  //     },
-  //   },
-  
+  notes: {
+    optional: true,
+    custom: {
+      options: (value) => {
+        if (value.length >= 1000) {
+          throw new Error("Notes cannot be more than 1000 characters");
+        }
+        return true;
+      },
+    },
+  },
 };
 
 module.exports = {

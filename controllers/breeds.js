@@ -19,7 +19,13 @@ const store = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    const breeds = await prisma.breed.findMany();
+    const breeds = await prisma.breed.findMany({
+      include: {
+        _count: {
+          select: { dogs: true }, 
+        },
+      },
+    });
     res.status(200).send(breeds);
   } catch (error) {
     errorHandlerFunction(error);

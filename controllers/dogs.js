@@ -63,15 +63,40 @@ const store = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    //fare la paginazione
-    const { page = 1, limit = 12 } = req.query;
+    let { page = 1, limit = 12, sex, breed } = req.query; //da aumentare
+    sex = sex === "true" ? true : sex === "false" ? false : undefined;
     const offset = (page - 1) * limit;
 
-    const totalItems = await prisma.dog.count();
+    const whereConditions = {
+      ...(sex !== undefined && { sex }),
+      ...(breed && { breed: { name: breed } }),
+    };
+
+    // Count dei male
+    const maleCount = await prisma.dog.count({
+      where: { sex: true },
+    });
+
+    // Count dei female
+    const femaleCount = await prisma.dog.count({
+      where: { sex: false },
+    });
+
+    // const totalItems = await prisma.dog.count();
+    const totalItems = await prisma.dog.count({
+      where: {
+        ...(sex !== undefined && { sex }),
+        ...(breed && { breed: { name: breed } }),
+      },
+    });
 
     const totalPages = Math.ceil(totalItems / limit);
 
     const dogs = await prisma.dog.findMany({
+      where: {
+        ...(sex !== undefined && { sex }),
+        ...(breed && { breed: { name: breed } }),
+      },
       include: {
         breed: true,
         country: true,
@@ -79,7 +104,11 @@ const index = async (req, res) => {
         childrenAsDam: true,
         sire: true,
         dam: true,
-        user: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
       },
       take: parseInt(limit),
       skip: parseInt(offset),
@@ -93,6 +122,8 @@ const index = async (req, res) => {
       page: parseInt(page),
       totalItems,
       totalPages,
+      maleCount,
+      femaleCount,
     });
   } catch (error) {
     errorHandlerFunction(res, error);
@@ -109,15 +140,35 @@ const indexAll = async (req, res) => {
         childrenAsDam: true,
         sire: true,
         dam: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
-    res.status(200).send(dogs);
+
+    // Count dei male
+    const maleCount = await prisma.dog.count({
+      where: { sex: true },
+    });
+
+    // Count dei female
+    const femaleCount = await prisma.dog.count({
+      where: { sex: false },
+    });
+
+    res.status(200).send({
+      dogs,
+      maleCount,
+      femaleCount,
+    });
   } catch (error) {
     errorHandlerFunction(res, error);
   }
 };
 
-const show = async(req, res) => {
+const show = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
     const post = await prisma.dog.findUnique({
@@ -125,36 +176,250 @@ const show = async(req, res) => {
       include: {
         breed: true,
         country: true,
-        childrenAsSire: true,
-        childrenAsDam: true,
-        sire: true,
-        dam: true,
-        user: true,
+        // include dei figli anche i loro figli/e e padri/madri
+        childrenAsSire: {
+          //figli
+          include: {
+            breed: true,
+            country: true,
+            childrenAsSire: {
+              //nipoti
+              include: {
+                breed: true,
+                country: true,
+                childrenAsSire: {
+                  //pronipoti
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+                childrenAsDam: {
+                  //nipoti
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+              },
+            },
+            childrenAsDam: {
+              //nipoti
+              include: {
+                breed: true,
+                country: true,
+                childrenAsSire: {
+                  //pronipoti
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+                childrenAsDam: {
+                  //nipoti
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        // include dei figli anche i loro figli/e e padri/madri
+        childrenAsDam: {
+          include: {
+            breed: true,
+            country: true,
+            childrenAsSire: {
+              //nipoti
+              include: {
+                breed: true,
+                country: true,
+                childrenAsSire: {
+                  //pronipoti
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+                childrenAsDam: {
+                  //nipoti
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+              },
+            },
+            childrenAsDam: {
+              //nipoti
+              include: {
+                breed: true,
+                country: true,
+                childrenAsSire: {
+                  //pronipoti
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+                childrenAsDam: {
+                  //nipoti
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        //del padre include anche gli altri figli o figlie
+        sire: {
+          include: {
+            breed: true,
+            country: true,
+            //nonno
+            sire: {
+              include: {
+                breed: true,
+                country: true,
+                //bisnonni
+                sire: {
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+                dam: {
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+              },
+            },
+            //nonna
+            dam: {
+              include: {
+                breed: true,
+                country: true,
+                //bisnonni
+                sire: {
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+                dam: {
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+              },
+            },
+            childrenAsSire: {
+              include: {
+                breed: true,
+                country: true,
+              },
+            },
+            childrenAsDam: {
+              include: {
+                breed: true,
+                country: true,
+              },
+            },
+          },
+        },
+        //della madre include anche gli altri figli o figlie
+        dam: {
+          include: {
+            breed: true,
+            country: true,
+            //nonno
+            sire: {
+              include: {
+                breed: true,
+                country: true,
+                //bisnonni
+                sire: {
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+                dam: {
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+              },
+            },
+            //nonna
+            dam: {
+              include: {
+                breed: true,
+                country: true,
+                //bisnonni
+                sire: {
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+                dam: {
+                  include: {
+                    breed: true,
+                    country: true,
+                  },
+                },
+              },
+            },
+            childrenAsSire: {
+              include: {
+                breed: true,
+                country: true,
+              },
+            },
+            childrenAsDam: {
+              include: {
+                breed: true,
+                country: true,
+              },
+            },
+          },
+        },
+        user: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     res.status(200).json(post);
   } catch (err) {
-    errorHandlerFunction(res, err); 
+    errorHandlerFunction(res, err);
   }
-}
+};
 
 const update = async (req, res) => {
   const id = parseInt(req.params.id);
   const imageUrl = req.file ? `${baseUrl}/uploads/${req.file.filename}` : null;
 
-  
   const data = {};
 
-  
   if (imageUrl) {
     data.image = imageUrl;
   }
 
   try {
-    
     const dog = await prisma.dog.update({
       where: { id },
-      data: Object.keys(data).length ? data : undefined, 
+      data: Object.keys(data).length ? data : undefined,
     });
 
     res.status(200).json({ message: `You modified the dog image`, data: dog });
@@ -162,7 +427,6 @@ const update = async (req, res) => {
     errorHandlerFunction(res, err);
   }
 };
-
 
 const findSire = async (req, res) => {
   const { breedId, name } = req.query;
@@ -271,5 +535,5 @@ module.exports = {
   findSire,
   findDam,
   show,
-  update
+  update,
 };

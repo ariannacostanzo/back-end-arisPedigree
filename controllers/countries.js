@@ -19,7 +19,13 @@ const store = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    const countries = await prisma.country.findMany();
+    const countries = await prisma.country.findMany({
+      include: {
+        _count: {
+          select: { dogs: true },
+        },
+      },
+    });
     res.status(200).send(countries);
   } catch (error) {
     errorHandlerFunction(error);
