@@ -752,7 +752,12 @@ const users = [
   }
 ]
 
-
+const generateSlug = (name) => {
+  return name
+    .toLowerCase() 
+    .replace(/[^a-z0-9]+/g, "-") 
+    .replace(/(^-|-$)+/g, ""); 
+};
 
 const createUser = async () => {
   try {
@@ -775,18 +780,28 @@ const createUser = async () => {
 };
 
 const createAllCountries = () => {
+const countriesWithSlugs = countries.map((country) => ({
+  ...country,
+  slug: generateSlug(country.name),
+}));
+
   prisma.country
     .createMany({
-      data: countries,
+      data: countriesWithSlugs,
     })
     .then((count) => console.log(count))
     .catch((err) => console.error(err));
 };
 
 const createAllBreeds = () => {
+  const breedsWithSlugs = breeds.map((breed) => ({
+    ...breed,
+    slug: generateSlug(breed.name),
+  }));
+
   prisma.breed
     .createMany({
-      data: breeds,
+      data: breedsWithSlugs,
     })
     .then((count) => console.log(count))
     .catch((err) => console.error(err));

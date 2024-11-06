@@ -33,12 +33,12 @@ const index = async (req, res) => {
 };
 
 const show = async (req, res) => {
-  let { id } = req.params;
-  id = parseInt(id);
+  let { slug } = req.params;
+  // id = parseInt(id);
 
   try {
     const breed = await prisma.breed.findUnique({
-      where: { id },
+      where: { slug },
       include: {
         dogs: true,
       },
@@ -50,7 +50,7 @@ const show = async (req, res) => {
   }
 };
 
-const destroy = async (req, res) => {
+const destroy = async (req, res) => { 
   const id = parseInt(req.params.id);
   try {
     const breed = await prisma.breed.delete({

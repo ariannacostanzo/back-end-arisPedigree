@@ -32,6 +32,22 @@ const index = async (req, res) => {
   }
 };
 
+const show = async (req, res) => {
+  let { slug } = req.params;
+
+  try {
+    const country = await prisma.country.findUnique({
+      where: { slug },
+      include: {
+        dogs: true,
+      },
+    });
+
+    res.status(200).send(country);
+  } catch (error) {
+    errorHandlerFunction(res, error);
+  }
+};
 
 const destroy = async (req, res) => {
   const id = parseInt(req.params.id);
@@ -45,9 +61,9 @@ const destroy = async (req, res) => {
   }
 };
 
-
 module.exports = {
   store,
   index,
-  destroy
+  destroy,
+  show,
 };
