@@ -22,13 +22,31 @@ const index = async (req, res) => {
     const breeds = await prisma.breed.findMany({
       include: {
         _count: {
-          select: { dogs: true }, 
+          select: { dogs: true },
         },
       },
     });
     res.status(200).send(breeds);
   } catch (error) {
     errorHandlerFunction(error);
+  }
+};
+
+const show = async (req, res) => {
+  let { id } = req.params;
+  id = parseInt(id);
+
+  try {
+    const breed = await prisma.breed.findUnique({
+      where: { id },
+      include: {
+        dogs: true,
+      },
+    });
+
+    res.status(200).send(breed);
+  } catch (error) {
+    errorHandlerFunction(res, error);
   }
 };
 
@@ -44,9 +62,9 @@ const destroy = async (req, res) => {
   }
 };
 
-
 module.exports = {
   store,
   index,
-  destroy
+  destroy,
+  show,
 };

@@ -74,29 +74,29 @@ const index = async (req, res) => {
 
     // Count dei male
     const maleCount = await prisma.dog.count({
-      where: { sex: true },
+      where: {
+        ...whereConditions,
+        sex: true,
+      },
     });
 
     // Count dei female
     const femaleCount = await prisma.dog.count({
-      where: { sex: false },
+      where: {
+        ...whereConditions,
+        sex: false,
+      },
     });
 
     // const totalItems = await prisma.dog.count();
     const totalItems = await prisma.dog.count({
-      where: {
-        ...(sex !== undefined && { sex }),
-        ...(breed && { breed: { name: breed } }),
-      },
+      where: whereConditions,
     });
 
     const totalPages = Math.ceil(totalItems / limit);
 
     const dogs = await prisma.dog.findMany({
-      where: {
-        ...(sex !== undefined && { sex }),
-        ...(breed && { breed: { name: breed } }),
-      },
+      where: whereConditions,
       include: {
         breed: true,
         country: true,
