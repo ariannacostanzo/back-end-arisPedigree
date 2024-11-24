@@ -360,6 +360,18 @@ const show = async (req, res) => {
                 },
               },
             },
+            childrenAsSire: {
+              include: {
+                breed: true,
+                country: true,
+              },
+            },
+            childrenAsDam: {
+              include: {
+                breed: true,
+                country: true,
+              },
+            },
             dam: {
               include: {
                 breed: true,
@@ -635,7 +647,7 @@ const findDam = async (req, res) => {
         childrenAsSire: true,
         childrenAsDam: true,
         sire: true,
-        dam: true, 
+        dam: true,
       },
     });
 
