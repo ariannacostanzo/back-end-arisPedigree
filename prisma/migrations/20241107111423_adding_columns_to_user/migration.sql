@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `user` ADD COLUMN `image` VARCHAR(191) NULL,
+    ADD COLUMN `isAdmin` BOOLEAN NOT NULL DEFAULT false;

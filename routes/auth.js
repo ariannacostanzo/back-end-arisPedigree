@@ -16,5 +16,6 @@ router.post(
   validator(authValidations.loginBody),
   authController.login
 );
+router.get("/user/:id", authController.fetchUser)
 
 module.exports = router;

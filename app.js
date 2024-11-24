@@ -37,3 +37,6 @@ app.use("/dogs", dogRouter);
 app.listen(port, () => {
   console.log(`Server avviato su ${port}`);
 });
+
+
+//fare opzione admin per user, aggiungere la foto, ed aggiungere i cani che ha pubblicato

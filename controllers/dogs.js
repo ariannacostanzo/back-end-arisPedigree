@@ -2,6 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 const errorHandlerFunction = require("../utils/errorHandlerFunction");
 const prisma = new PrismaClient();
 const baseUrl = "http://localhost:8000";
+const path = require("path");
+const fs = require("fs");
 
 const store = async (req, res) => {
   const imageUrl = req.file ? `${baseUrl}/uploads/${req.file.filename}` : null;
@@ -63,7 +65,7 @@ const store = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    let { page = 1, limit = 12, sex, breed } = req.query; //da aumentare
+    let { page = 1, limit = 12, sex, breed, order = "desc" } = req.query; //da aumentare
     sex = sex === "true" ? true : sex === "false" ? false : undefined;
     const offset = (page - 1) * limit;
 
@@ -113,7 +115,7 @@ const index = async (req, res) => {
       take: parseInt(limit),
       skip: parseInt(offset),
       orderBy: {
-        createdAt: "desc",
+        createdAt: order,
       },
     });
 
@@ -176,54 +178,11 @@ const show = async (req, res) => {
       include: {
         breed: true,
         country: true,
-        // include dei figli anche i loro figli/e e padri/madri
         childrenAsSire: {
           //figli
           include: {
             breed: true,
             country: true,
-            childrenAsSire: {
-              //nipoti
-              include: {
-                breed: true,
-                country: true,
-                childrenAsSire: {
-                  //pronipoti
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-                childrenAsDam: {
-                  //nipoti
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-              },
-            },
-            childrenAsDam: {
-              //nipoti
-              include: {
-                breed: true,
-                country: true,
-                childrenAsSire: {
-                  //pronipoti
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-                childrenAsDam: {
-                  //nipoti
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-              },
-            },
           },
         },
         // include dei figli anche i loro figli/e e padri/madri
@@ -231,81 +190,180 @@ const show = async (req, res) => {
           include: {
             breed: true,
             country: true,
-            childrenAsSire: {
-              //nipoti
-              include: {
-                breed: true,
-                country: true,
-                childrenAsSire: {
-                  //pronipoti
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-                childrenAsDam: {
-                  //nipoti
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-              },
-            },
-            childrenAsDam: {
-              //nipoti
-              include: {
-                breed: true,
-                country: true,
-                childrenAsSire: {
-                  //pronipoti
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-                childrenAsDam: {
-                  //nipoti
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-              },
-            },
           },
         },
         //del padre include anche gli altri figli o figlie
+        // Include ancestors up to the 8th generation through sire and dam
         sire: {
           include: {
             breed: true,
             country: true,
-            //nonno
             sire: {
               include: {
                 breed: true,
                 country: true,
-                //bisnonni
                 sire: {
                   include: {
                     breed: true,
                     country: true,
+                    sire: {
+                      include: {
+                        breed: true,
+                        country: true,
+                        sire: {
+                          include: {
+                            breed: true,
+                            country: true,
+                            sire: {
+                              include: {
+                                breed: true,
+                                country: true,
+                                sire: {
+                                  include: {
+                                    breed: true,
+                                    country: true,
+                                    sire: {
+                                      include: {
+                                        breed: true,
+                                        country: true,
+                                        sire: {
+                                          include: {
+                                            breed: true,
+                                            country: true,
+                                          },
+                                        },
+                                        dam: {
+                                          include: {
+                                            breed: true,
+                                            country: true,
+                                          },
+                                        },
+                                      },
+                                    },
+                                    dam: {
+                                      include: {
+                                        breed: true,
+                                        country: true,
+                                        sire: {
+                                          include: {
+                                            breed: true,
+                                            country: true,
+                                          },
+                                        },
+                                        dam: {
+                                          include: {
+                                            breed: true,
+                                            country: true,
+                                          },
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                                dam: {
+                                  include: {
+                                    breed: true,
+                                    country: true,
+                                    sire: {
+                                      include: {
+                                        breed: true,
+                                        country: true,
+                                      },
+                                    },
+                                    dam: {
+                                      include: {
+                                        breed: true,
+                                        country: true,
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                            dam: {
+                              include: {
+                                breed: true,
+                                country: true,
+                                sire: {
+                                  include: {
+                                    breed: true,
+                                    country: true,
+                                  },
+                                },
+                                dam: {
+                                  include: {
+                                    breed: true,
+                                    country: true,
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                        dam: {
+                          include: {
+                            breed: true,
+                            country: true,
+                            sire: {
+                              include: {
+                                breed: true,
+                                country: true,
+                              },
+                            },
+                            dam: {
+                              include: {
+                                breed: true,
+                                country: true,
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                    dam: {
+                      include: {
+                        breed: true,
+                        country: true,
+                        sire: {
+                          include: {
+                            breed: true,
+                            country: true,
+                          },
+                        },
+                        dam: {
+                          include: {
+                            breed: true,
+                            country: true,
+                          },
+                        },
+                      },
+                    },
                   },
                 },
                 dam: {
                   include: {
                     breed: true,
                     country: true,
+                    sire: {
+                      include: {
+                        breed: true,
+                        country: true,
+                      },
+                    },
+                    dam: {
+                      include: {
+                        breed: true,
+                        country: true,
+                      },
+                    },
                   },
                 },
               },
             },
-            //nonna
             dam: {
               include: {
                 breed: true,
                 country: true,
-                //bisnonni
                 sire: {
                   include: {
                     breed: true,
@@ -318,77 +376,174 @@ const show = async (req, res) => {
                     country: true,
                   },
                 },
-              },
-            },
-            childrenAsSire: {
-              include: {
-                breed: true,
-                country: true,
-              },
-            },
-            childrenAsDam: {
-              include: {
-                breed: true,
-                country: true,
               },
             },
           },
         },
-        //della madre include anche gli altri figli o figlie
         dam: {
           include: {
             breed: true,
             country: true,
-            //nonno
             sire: {
               include: {
                 breed: true,
                 country: true,
-                //bisnonni
                 sire: {
                   include: {
                     breed: true,
                     country: true,
+                    sire: {
+                      include: {
+                        breed: true,
+                        country: true,
+                        sire: {
+                          include: {
+                            breed: true,
+                            country: true,
+                            sire: {
+                              include: {
+                                breed: true,
+                                country: true,
+                                sire: {
+                                  include: {
+                                    breed: true,
+                                    country: true,
+                                    sire: {
+                                      include: {
+                                        breed: true,
+                                        country: true,
+                                        sire: {
+                                          include: {
+                                            breed: true,
+                                            country: true,
+                                          },
+                                        },
+                                        dam: {
+                                          include: {
+                                            breed: true,
+                                            country: true,
+                                          },
+                                        },
+                                      },
+                                    },
+                                    dam: {
+                                      include: {
+                                        breed: true,
+                                        country: true,
+                                        sire: {
+                                          include: {
+                                            breed: true,
+                                            country: true,
+                                          },
+                                        },
+                                        dam: {
+                                          include: {
+                                            breed: true,
+                                            country: true,
+                                          },
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                                dam: {
+                                  include: {
+                                    breed: true,
+                                    country: true,
+                                    sire: {
+                                      include: {
+                                        breed: true,
+                                        country: true,
+                                      },
+                                    },
+                                    dam: {
+                                      include: {
+                                        breed: true,
+                                        country: true,
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                            dam: {
+                              include: {
+                                breed: true,
+                                country: true,
+                                sire: {
+                                  include: {
+                                    breed: true,
+                                    country: true,
+                                  },
+                                },
+                                dam: {
+                                  include: {
+                                    breed: true,
+                                    country: true,
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                        dam: {
+                          include: {
+                            breed: true,
+                            country: true,
+                            sire: {
+                              include: {
+                                breed: true,
+                                country: true,
+                              },
+                            },
+                            dam: {
+                              include: {
+                                breed: true,
+                                country: true,
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                    dam: {
+                      include: {
+                        breed: true,
+                        country: true,
+                        sire: {
+                          include: {
+                            breed: true,
+                            country: true,
+                          },
+                        },
+                        dam: {
+                          include: {
+                            breed: true,
+                            country: true,
+                          },
+                        },
+                      },
+                    },
                   },
                 },
                 dam: {
                   include: {
                     breed: true,
                     country: true,
+                    sire: {
+                      include: {
+                        breed: true,
+                        country: true,
+                      },
+                    },
+                    dam: {
+                      include: {
+                        breed: true,
+                        country: true,
+                      },
+                    },
                   },
                 },
-              },
-            },
-            //nonna
-            dam: {
-              include: {
-                breed: true,
-                country: true,
-                //bisnonni
-                sire: {
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-                dam: {
-                  include: {
-                    breed: true,
-                    country: true,
-                  },
-                },
-              },
-            },
-            childrenAsSire: {
-              include: {
-                breed: true,
-                country: true,
-              },
-            },
-            childrenAsDam: {
-              include: {
-                breed: true,
-                country: true,
               },
             },
           },
@@ -480,7 +635,7 @@ const findDam = async (req, res) => {
         childrenAsSire: true,
         childrenAsDam: true,
         sire: true,
-        dam: true,
+        dam: true, 
       },
     });
 
@@ -521,7 +676,9 @@ const destroy = async (req, res) => {
     await prisma.dog.delete({
       where: { id },
     });
-    res.status(200).json([dog, `Hai eliminato il cane ${dog.name}`]);
+    res
+      .status(200)
+      .json([dog, `You have successfully eliminated "${dog.name}"`]);
   } catch (err) {
     errorHandlerFunction(res, err);
   }
@@ -537,3 +694,47 @@ module.exports = {
   show,
   update,
 };
+
+//se voglio riavere i nipoti
+// childrenAsSire: {
+//   //nipoti
+//   include: {
+//     breed: true,
+//     country: true,
+//     childrenAsSire: {
+//       //pronipoti
+//       include: {
+//         breed: true,
+//         country: true,
+//       },
+//     },
+//     childrenAsDam: {
+//       //nipoti
+//       include: {
+//         breed: true,
+//         country: true,
+//       },
+//     },
+//   },
+// },
+// childrenAsDam: {
+//   //nipoti
+//   include: {
+//     breed: true,
+//     country: true,
+//     childrenAsSire: {
+//       //pronipoti
+//       include: {
+//         breed: true,
+//         country: true,
+//       },
+//     },
+//     childrenAsDam: {
+//       //nipoti
+//       include: {
+//         breed: true,
+//         country: true,
+//       },
+//     },
+//   },
+// },

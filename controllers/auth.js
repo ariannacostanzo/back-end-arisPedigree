@@ -28,6 +28,7 @@ const login = async (req, res) => {
       id: user.id,
       email: user.email,
       name: user.name,
+      ...(user.isAdmin ? { isAdmin: user.isAdmin } : {}),
     };
 
     const token = generateToken(data);
@@ -36,6 +37,31 @@ const login = async (req, res) => {
     errorHandlerFunction(res, error);
   }
 };
+
+const updateUserPhoto = async (req, res) => {
+
+}
+
+const fetchUser = async (req, res) => {
+  let {id} = req.params;
+  id = parseInt(id);
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: {
+        dogs: true,
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+    res.status(200).send(user)
+
+  } catch (error) {
+    errorHandlerFunction(res, error)
+  }
+}
 
 const register = async (req, res) => {
   const { email, password, name } = req.body;
@@ -53,11 +79,12 @@ const register = async (req, res) => {
       id: user.id,
       email,
       name,
+      ...(user.isAdmin ? { isAdmin: user.isAdmin } : {}),
     };
 
     const token = generateToken(data);
 
-    res.json({ token, email, name });
+    res.json({ token, data });
   } catch (error) {
     errorHandlerFunction(res, error);
   }
@@ -66,4 +93,7 @@ const register = async (req, res) => {
 module.exports = {
   login,
   register,
+  fetchUser
 };
+
+//da sistemare l'immagine al deelete

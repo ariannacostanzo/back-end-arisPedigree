@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 const fs = require("fs");
 const path = require("path");
 
+//fai prima coutnries e breeeds
 const countries = [
   { name: "Afghanistan", code: "AF" },
   { name: "Åland Islands", code: "AX" },
@@ -672,6 +673,7 @@ const breeds = [
   { name: "سەگی پشدەری Pejdar Dog" },
 ];
 
+//questi non li puoi creare dfino a quanod non hai creato l'user con id 1
 const dogs = [
   {
     name: "Jackstaff fasination",
@@ -743,6 +745,62 @@ const dogs = [
     userId: 1,
   },
 ];
+
+//creali dopo i countries, breed, user e i cani d'esempio
+const exampleDogs = [
+  { name: "dog 1", slug: "dog-1", breedId: 1, countryId: 1, userId: 1 },
+  { name: "dog 2", slug: "dog-2", breedId: 2, countryId: 2, userId: 1 },
+  { name: "dog 3", slug: "dog-3", breedId: 3, countryId: 3, userId: 1 },
+  { name: "dog 4", slug: "dog-4", breedId: 4, countryId: 4, userId: 1 },
+  { name: "dog 5", slug: "dog-5", breedId: 5, countryId: 5, userId: 1 },
+  { name: "dog 6", slug: "dog-6", breedId: 6, countryId: 6, userId: 1 },
+  { name: "dog 7", slug: "dog-7", breedId: 7, countryId: 7, userId: 1 },
+  { name: "dog 8", slug: "dog-8", breedId: 8, countryId: 8, userId: 1 },
+  { name: "dog 9", slug: "dog-9", breedId: 9, countryId: 9, userId: 1 },
+  { name: "dog 10", slug: "dog-10", breedId: 10, countryId: 10, userId: 1 },
+  { name: "dog 11", slug: "dog-11", breedId: 11, countryId: 11, userId: 1 },
+  { name: "dog 12", slug: "dog-12", breedId: 12, countryId: 12, userId: 1 },
+  { name: "dog 13", slug: "dog-13", breedId: 13, countryId: 13, userId: 1 },
+  { name: "dog 14", slug: "dog-14", breedId: 14, countryId: 14, userId: 1 },
+  { name: "dog 15", slug: "dog-15", breedId: 15, countryId: 15, userId: 1 },
+  { name: "dog 16", slug: "dog-16", breedId: 16, countryId: 16, userId: 1 },
+  { name: "dog 17", slug: "dog-17", breedId: 17, countryId: 17, userId: 1 },
+  { name: "dog 18", slug: "dog-18", breedId: 18, countryId: 18, userId: 1 },
+  { name: "dog 19", slug: "dog-19", breedId: 19, countryId: 19, userId: 1 },
+  { name: "dog 20", slug: "dog-20", breedId: 20, countryId: 20, userId: 1 },
+  { name: "dog 21", slug: "dog-21", breedId: 21, countryId: 21, userId: 1 },
+  { name: "dog 22", slug: "dog-22", breedId: 22, countryId: 22, userId: 1 },
+  { name: "dog 23", slug: "dog-23", breedId: 23, countryId: 23, userId: 1 },
+  { name: "dog 24", slug: "dog-24", breedId: 24, countryId: 24, userId: 1 },
+  { name: "dog 25", slug: "dog-25", breedId: 25, countryId: 25, userId: 1 },
+  { name: "dog 26", slug: "dog-26", breedId: 26, countryId: 26, userId: 1 },
+  { name: "dog 27", slug: "dog-27", breedId: 27, countryId: 27, userId: 1 },
+  { name: "dog 28", slug: "dog-28", breedId: 28, countryId: 28, userId: 1 },
+  { name: "dog 29", slug: "dog-29", breedId: 29, countryId: 29, userId: 1 },
+  { name: "dog 30", slug: "dog-30", breedId: 30, countryId: 30, userId: 1 },
+  { name: "dog 31", slug: "dog-31", breedId: 31, countryId: 31, userId: 1 },
+  { name: "dog 32", slug: "dog-32", breedId: 32, countryId: 32, userId: 1 },
+  { name: "dog 33", slug: "dog-33", breedId: 33, countryId: 33, userId: 1 },
+  { name: "dog 34", slug: "dog-34", breedId: 34, countryId: 34, userId: 1 },
+  { name: "dog 35", slug: "dog-35", breedId: 35, countryId: 35, userId: 1 },
+  { name: "dog 36", slug: "dog-36", breedId: 36, countryId: 36, userId: 1 },
+  { name: "dog 37", slug: "dog-37", breedId: 37, countryId: 37, userId: 1 },
+  { name: "dog 38", slug: "dog-38", breedId: 38, countryId: 38, userId: 1 },
+  { name: "dog 39", slug: "dog-39", breedId: 39, countryId: 39, userId: 1 },
+  { name: "dog 40", slug: "dog-40", breedId: 40, countryId: 40, userId: 1 },
+  { name: "dog 41", slug: "dog-41", breedId: 41, countryId: 41, userId: 1, sex: false },
+  { name: "dog 42", slug: "dog-42", breedId: 41, countryId: 41, userId: 1, sex: false },
+  { name: "dog 43", slug: "dog-43", breedId: 41, countryId: 41, userId: 1, sex: false },
+  { name: "dog 44", slug: "dog-44", breedId: 41, countryId: 41, userId: 1, sex: false },
+  { name: "dog 45", slug: "dog-45", breedId: 41, countryId: 41, userId: 1, sex: false },
+  { name: "dog 46", slug: "dog-46", breedId: 42, countryId: 42, userId: 1, sex: false },
+  { name: "dog 47", slug: "dog-47", breedId: 42, countryId: 42, userId: 1, sex: false },
+  { name: "dog 48", slug: "dog-48", breedId: 42, countryId: 42, userId: 1, sex: false },
+  { name: "dog 49", slug: "dog-49", breedId: 49, countryId: 49, userId: 1, sex: false },
+  { name: "dog 50", slug: "dog-50", breedId: 50, countryId: 50, userId: 1, sex: false }
+];
+
+
 
 const users = [
   {
@@ -826,10 +884,19 @@ const createAllDogs = () => {
     .then((count) => console.log(count))
     .catch((err) => console.error(err));
 }
+const createExampleDogs = () => {
+  prisma.dog
+    .createMany({
+      data: exampleDogs,
+    })
+    .then((count) => console.log(count))
+    .catch((err) => console.error(err));
+}
 
 // createAllCountries();
 // createAllBreeds();
 // createUser();
-createAllDogs(); 
+// createAllDogs(); 
+createExampleDogs();
 
 // node .\utils\seeder.js
