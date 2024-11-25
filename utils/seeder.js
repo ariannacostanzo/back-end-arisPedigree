@@ -804,7 +804,7 @@ const exampleDogs = [
 
 const users = [
   {
-    email : "user@admin.it",
+    email: "user@admin.it",
     name: "admin",
     password: "password"
   }
@@ -812,9 +812,9 @@ const users = [
 
 const generateSlug = (name) => {
   return name
-    .toLowerCase() 
-    .replace(/[^a-z0-9]+/g, "-") 
-    .replace(/(^-|-$)+/g, ""); 
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
 };
 
 const createUser = async () => {
@@ -838,10 +838,10 @@ const createUser = async () => {
 };
 
 const createAllCountries = () => {
-const countriesWithSlugs = countries.map((country) => ({
-  ...country,
-  slug: generateSlug(country.name),
-}));
+  const countriesWithSlugs = countries.map((country) => ({
+    ...country,
+    slug: generateSlug(country.name),
+  }));
 
   prisma.country
     .createMany({
@@ -893,10 +893,10 @@ const createExampleDogs = () => {
     .catch((err) => console.error(err));
 }
 
-// createAllCountries();
-// createAllBreeds();
+createAllCountries();
+createAllBreeds();
 // createUser();
-// createAllDogs(); 
-createExampleDogs();
+// createAllDogs();
+// createExampleDogs();
 
 // node .\utils\seeder.js
