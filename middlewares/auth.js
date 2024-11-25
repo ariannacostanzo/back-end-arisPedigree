@@ -9,9 +9,10 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: "Missing token" });
   }
 
-  jtw.verify(token, process.env.JTW_SECRET_KEY, (err, data) => {
-     if (err) return res.status(403).json({ message: "Invalid token" }); 
-     
+  jtw.verify(token, process.env.JWT_SECRET_KEY, (err, data) => {
+    console.log('Token: ', token)
+    if (err) return res.status(403).json({ message: "Invalid token" });
+
 
     req.user = data;
     next();
