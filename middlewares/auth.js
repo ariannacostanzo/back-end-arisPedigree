@@ -10,7 +10,6 @@ module.exports = (req, res, next) => {
   }
 
   jtw.verify(token, process.env.JWT_SECRET_KEY, (err, data) => {
-    console.log('Token: ', token)
     if (err) return res.status(403).json({ message: "Invalid token" });
 
 
