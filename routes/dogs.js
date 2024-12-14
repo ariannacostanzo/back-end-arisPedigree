@@ -11,14 +11,15 @@ const upload = require('../middlewares/upload.js')
 const validator = require("../middlewares/validator.js");
 const dogsValidations = require("../validations/dogs.js");
 const incrementViews = require("../middlewares/incrementViews.js");
+const authDogOwner = require("../middlewares/authDogOwner.js");
 
 router.post("/", authMiddleware, upload.single("image"), validator(dogsValidations.bodyData), dogsController.store);
-router.put("/:id", authMiddleware, upload.single("image"), validator(dogsValidations.bodyData), dogsController.update);
+router.put("/:id", authMiddleware, authDogOwner, upload.single("image"), validator(dogsValidations.bodyData), dogsController.update);
 router.get("/", dogsController.index);
 router.get("/allDogs", dogsController.indexAll);
 router.get("/findSire", dogsController.findSire);
 router.get("/findDam", dogsController.findDam);
 router.get("/:id", incrementViews, dogsController.show);
-router.delete("/:id", dogsController.destroy);
+router.delete("/:id", authMiddleware, authDogOwner, dogsController.destroy);
 
 module.exports = router;
