@@ -39,6 +39,10 @@ const bodyData = {
       errorMessage: "Please select a breed",
       bail: true,
     },
+    isInt: {
+      errorMessage: "Invalid type format for breedId",
+      bail: true
+    },
     custom: {
       options: async (value) => {
         const breedId = parseInt(value);
@@ -57,11 +61,15 @@ const bodyData = {
       errorMessage: "Please select a country",
       bail: true,
     },
+    isInt: {
+      errorMessage: "Invalid type format for countryId",
+      bail: true
+    },
     custom: {
       options: async (value) => {
-        const countryId = Number(value); 
+        const countryId = Number(value);
         if (isNaN(countryId)) {
-          
+
           throw new Error("Invalid country ID");
         }
 
@@ -80,6 +88,10 @@ const bodyData = {
     notEmpty: {
       errorMessage: "Missing user",
       bail: true,
+    },
+    isInt: {
+      errorMessage: "Invalid type format for userId",
+      bail: true
     },
     custom: {
       options: async (value) => {
