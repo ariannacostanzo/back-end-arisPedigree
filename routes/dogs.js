@@ -13,7 +13,7 @@ const dogsValidations = require("../validations/dogs.js");
 const incrementViews = require("../middlewares/incrementViews.js");
 
 router.post("/", authMiddleware, upload.single("image"), validator(dogsValidations.bodyData), dogsController.store);
-router.put("/:id", authMiddleware, upload.single("image"), dogsController.update);
+router.put("/:id", authMiddleware, upload.single("image"), validator(dogsValidations.bodyData), dogsController.update);
 router.get("/", dogsController.index);
 router.get("/allDogs", dogsController.indexAll);
 router.get("/findSire", dogsController.findSire);
@@ -22,4 +22,3 @@ router.get("/:id", incrementViews, dogsController.show);
 router.delete("/:id", dogsController.destroy);
 
 module.exports = router;
-    
