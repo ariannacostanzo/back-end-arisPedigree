@@ -697,7 +697,7 @@ const dogs = [
     owner: "July",
     notes: "A very affectionate dog",
     breedId: 2,
-    countryId: 229,
+    countryId: 492,
     userId: 1,
   },
   {
@@ -720,7 +720,7 @@ const dogs = [
     owner: null,
     notes: null,
     breedId: 10,
-    countryId: 11,
+    countryId: 493,
     userId: 1,
   },
   {
@@ -743,7 +743,7 @@ const dogs = [
     owner: "Marco",
     notes: "Molto energetica e intelligente",
     breedId: 149,
-    countryId: 45,
+    countryId: 494,
     userId: 1,
   },
 ];
