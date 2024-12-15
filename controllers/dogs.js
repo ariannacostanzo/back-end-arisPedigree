@@ -218,14 +218,14 @@ const update = async (req, res) => {
   const id = parseInt(req.params.id);
   const imageUrl = req.file ? `${baseUrl}/uploads/${req.file.filename}` : null;
 
-  // Estraggo i dati dal body della request
+  // Estraggo i dati dal body della request (I campi commentati non vengono modificati)
   const {
     name,
     slug,
     titles,
-    sireId,
-    damId,
-    sex,
+    // sireId,
+    // damId,
+    // sex,
     size,
     weight,
     dateOfBirth,
@@ -236,7 +236,7 @@ const update = async (req, res) => {
     kennel,
     owner,
     notes,
-    breedId,
+    // breedId,
     userId,
   } = req.body;
 
