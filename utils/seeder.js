@@ -123,6 +123,7 @@ const countries = [
   { name: "Kiribati", code: "KI" },
   { name: "Korea, Democratic People'S Republic of", code: "KP" },
   { name: "Korea, Republic of", code: "KR" },
+  { name: "Kosovo", code: "XK" },
   { name: "Kuwait", code: "KW" },
   { name: "Kyrgyzstan", code: "KG" },
   { name: "Lao People'S Democratic Republic", code: "LA" },
@@ -152,6 +153,7 @@ const countries = [
   { name: "Moldova, Republic of", code: "MD" },
   { name: "Monaco", code: "MC" },
   { name: "Mongolia", code: "MN" },
+  { name: "Montenegro", code: "ME" },
   { name: "Montserrat", code: "MS" },
   { name: "Morocco", code: "MA" },
   { name: "Mozambique", code: "MZ" },
@@ -173,7 +175,7 @@ const countries = [
   { name: "Oman", code: "OM" },
   { name: "Pakistan", code: "PK" },
   { name: "Palau", code: "PW" },
-  { name: "Palestinian Territory, Occupied", code: "PS" },
+  { name: "Palestine", code: "PS" },
   { name: "Panama", code: "PA" },
   { name: "Papua New Guinea", code: "PG" },
   { name: "Paraguay", code: "PY" },
@@ -198,7 +200,7 @@ const countries = [
   { name: "Sao Tome and Principe", code: "ST" },
   { name: "Saudi Arabia", code: "SA" },
   { name: "Senegal", code: "SN" },
-  { name: "Serbia and Montenegro", code: "CS" },
+  { name: "Serbia", code: "RS" },
   { name: "Seychelles", code: "SC" },
   { name: "Sierra Leone", code: "SL" },
   { name: "Singapore", code: "SG" },
@@ -695,7 +697,7 @@ const dogs = [
     owner: "July",
     notes: "A very affectionate dog",
     breedId: 2,
-    countryId: 229,
+    countryId: 492,
     userId: 1,
   },
   {
@@ -718,7 +720,7 @@ const dogs = [
     owner: null,
     notes: null,
     breedId: 10,
-    countryId: 11,
+    countryId: 493,
     userId: 1,
   },
   {
@@ -741,7 +743,7 @@ const dogs = [
     owner: "Marco",
     notes: "Molto energetica e intelligente",
     breedId: 149,
-    countryId: 45,
+    countryId: 494,
     userId: 1,
   },
 ];
@@ -893,10 +895,10 @@ const createExampleDogs = () => {
     .catch((err) => console.error(err));
 }
 
-createAllCountries();
-createAllBreeds();
+// createAllCountries();
+// createAllBreeds();
 // createUser();
-// createAllDogs();
+createAllDogs();
 // createExampleDogs();
 
 // node .\utils\seeder.js
