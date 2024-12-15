@@ -249,9 +249,9 @@ const update = async (req, res) => {
       .replace(/-+/g, "-"),
     image: imageUrl,
     titles,
-    sireId: sireId ? parseInt(sireId) : null,
-    damId: damId ? parseInt(damId) : null,
-    sex: sex === "true",
+    // sireId: sireId ? parseInt(sireId) : null,
+    // damId: damId ? parseInt(damId) : null,
+    // sex: sex === "true",
     size: size === "null" ? null : size,
     weight: weight === "null" ? null : weight,
     dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
@@ -262,7 +262,7 @@ const update = async (req, res) => {
     kennel,
     owner,
     notes,
-    breedId: parseInt(breedId),
+    // breedId: parseInt(breedId),
     userId: parseInt(userId),
   };
 
