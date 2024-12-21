@@ -682,7 +682,7 @@ const dogs = [
     slug: "jackstaff-fasination",
     titles: "GB Ch.",
     image:
-      "https://arispedigreeonline.com/wp-content/uploads/dogImages/6_1639234742_med_49984e8256bd3.jpg",
+      "https://allbigdogbreeds.com/wp-content/gallery/afghan-hound/Afghan_Hound-4.jpg",
     sireId: null,
     damId: null,
     views: 0,
@@ -704,7 +704,7 @@ const dogs = [
     name: "Esquel del Chubut",
     slug: "esquel-del-chubut",
     image:
-      "https://arispedigreeonline.com/wp-content/uploads/dogImages/6_1639236841_med_51aa5b3d2b1f0.jpg",
+      "https://www.adiestradorescaninos.es/wp-content/uploads/2023/01/alaskan-malamute.jpg",
     titles: null,
     sireId: null,
     damId: null,
@@ -728,7 +728,7 @@ const dogs = [
     slug: "雅-yala",
     titles: "Snow Tibetan Mastiff",
     image:
-      "https://arispedigreeonline.com/wp-content/uploads/dogImages/9_1641369330_%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20211222191336.jpg",
+      "https://www.hundund.de/hunderassen/tibetdogge/fotos/100_0205.jpg",
     sireId: null,
     damId: null,
     views: 0,
