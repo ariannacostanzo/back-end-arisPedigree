@@ -177,7 +177,7 @@ const indexAll = async (req, res) => {
 
 const show = async (req, res) => {
   const id = parseInt(req.params.id);
-  try {
+  try { 
     const post = await prisma.dog.findUnique({
       where: { id },
       include: {

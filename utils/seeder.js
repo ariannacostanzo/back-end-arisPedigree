@@ -727,8 +727,7 @@ const dogs = [
     name: "雅拉（Yala）",
     slug: "雅-yala",
     titles: "Snow Tibetan Mastiff",
-    image:
-      "https://www.hundund.de/hunderassen/tibetdogge/fotos/100_0205.jpg",
+    image: "https://www.hundund.de/hunderassen/tibetdogge/fotos/100_0205.jpg",
     sireId: null,
     damId: null,
     views: 0,
@@ -790,27 +789,95 @@ const exampleDogs = [
   { name: "dog 38", slug: "dog-38", breedId: 38, countryId: 38, userId: 1 },
   { name: "dog 39", slug: "dog-39", breedId: 39, countryId: 39, userId: 1 },
   { name: "dog 40", slug: "dog-40", breedId: 40, countryId: 40, userId: 1 },
-  { name: "dog 41", slug: "dog-41", breedId: 41, countryId: 41, userId: 1, sex: false },
-  { name: "dog 42", slug: "dog-42", breedId: 41, countryId: 41, userId: 1, sex: false },
-  { name: "dog 43", slug: "dog-43", breedId: 41, countryId: 41, userId: 1, sex: false },
-  { name: "dog 44", slug: "dog-44", breedId: 41, countryId: 41, userId: 1, sex: false },
-  { name: "dog 45", slug: "dog-45", breedId: 41, countryId: 41, userId: 1, sex: false },
-  { name: "dog 46", slug: "dog-46", breedId: 42, countryId: 42, userId: 1, sex: false },
-  { name: "dog 47", slug: "dog-47", breedId: 42, countryId: 42, userId: 1, sex: false },
-  { name: "dog 48", slug: "dog-48", breedId: 42, countryId: 42, userId: 1, sex: false },
-  { name: "dog 49", slug: "dog-49", breedId: 49, countryId: 49, userId: 1, sex: false },
-  { name: "dog 50", slug: "dog-50", breedId: 50, countryId: 50, userId: 1, sex: false }
+  {
+    name: "dog 41",
+    slug: "dog-41",
+    breedId: 41,
+    countryId: 41,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 42",
+    slug: "dog-42",
+    breedId: 41,
+    countryId: 41,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 43",
+    slug: "dog-43",
+    breedId: 41,
+    countryId: 41,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 44",
+    slug: "dog-44",
+    breedId: 41,
+    countryId: 41,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 45",
+    slug: "dog-45",
+    breedId: 41,
+    countryId: 41,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 46",
+    slug: "dog-46",
+    breedId: 42,
+    countryId: 42,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 47",
+    slug: "dog-47",
+    breedId: 42,
+    countryId: 42,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 48",
+    slug: "dog-48",
+    breedId: 42,
+    countryId: 42,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 49",
+    slug: "dog-49",
+    breedId: 49,
+    countryId: 49,
+    userId: 1,
+    sex: false,
+  },
+  {
+    name: "dog 50",
+    slug: "dog-50",
+    breedId: 50,
+    countryId: 50,
+    userId: 1,
+    sex: false,
+  },
 ];
-
-
 
 const users = [
   {
     email: "user@admin.it",
     name: "admin",
-    password: "password"
-  }
-]
+    password: "password",
+  },
+];
 
 const generateSlug = (name) => {
   return name
@@ -869,7 +936,7 @@ const createAllBreeds = () => {
 
 async function deleteAll(entity) {
   try {
-    const result = await prisma.entity.deleteMany({});
+    const result = await prisma[entity].deleteMany({});
     console.log(`${result.count} ${entity} deleted`);
   } catch (error) {
     console.error(`Error deleting ${entity}:`, error);
@@ -885,7 +952,7 @@ const createAllDogs = () => {
     })
     .then((count) => console.log(count))
     .catch((err) => console.error(err));
-}
+};
 const createExampleDogs = () => {
   prisma.dog
     .createMany({
@@ -893,12 +960,13 @@ const createExampleDogs = () => {
     })
     .then((count) => console.log(count))
     .catch((err) => console.error(err));
-}
+};
 
 // createAllCountries();
 // createAllBreeds();
 // createUser();
-createAllDogs();
+// createAllDogs();
 // createExampleDogs();
+deleteAll("country");
 
 // node .\utils\seeder.js

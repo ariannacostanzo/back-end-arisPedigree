@@ -6,15 +6,12 @@ const prisma = new PrismaClient();
 
 const login = async (req, res) => {
   try {
-     const { emailOrUsername, password } = req.body; 
-     const user = await prisma.user.findFirst({
-       where: {
-         OR: [
-           { email: emailOrUsername }, 
-           { name: emailOrUsername },  
-         ],
-       },
-     });
+    const { emailOrUsername, password } = req.body;
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [{ email: emailOrUsername }, { name: emailOrUsername }],
+      },
+    });
 
     const possibleMistake = new Error("passoword o email errati");
 
@@ -22,7 +19,7 @@ const login = async (req, res) => {
 
     const isPasswordValid = await comparePassword(password, user.password);
 
-    if (!isPasswordValid) throw possibleMistake;    
+    if (!isPasswordValid) throw possibleMistake;
 
     const data = {
       id: user.id,
@@ -38,12 +35,10 @@ const login = async (req, res) => {
   }
 };
 
-const updateUserPhoto = async (req, res) => {
-
-}
+const updateUserPhoto = async (req, res) => {};
 
 const fetchUser = async (req, res) => {
-  let {id} = req.params;
+  let { id } = req.params;
   id = parseInt(id);
 
   try {
@@ -56,12 +51,11 @@ const fetchUser = async (req, res) => {
         email: true,
       },
     });
-    res.status(200).send(user)
-
+    res.status(200).send(user);
   } catch (error) {
-    errorHandlerFunction(res, error)
+    errorHandlerFunction(res, error);
   }
-}
+};
 
 const register = async (req, res) => {
   const { email, password, name } = req.body;
@@ -93,7 +87,7 @@ const register = async (req, res) => {
 module.exports = {
   login,
   register,
-  fetchUser
+  fetchUser,
 };
 
 //da sistemare l'immagine al deelete
