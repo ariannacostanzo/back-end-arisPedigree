@@ -25,6 +25,9 @@ const index = async (req, res) => {
           select: { dogs: true },
         },
       },
+      orderBy: {
+        name: "asc",
+      },
     });
     res.status(200).send(breeds);
   } catch (error) {
@@ -50,7 +53,7 @@ const show = async (req, res) => {
   }
 };
 
-const destroy = async (req, res) => { 
+const destroy = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
     const breed = await prisma.breed.delete({

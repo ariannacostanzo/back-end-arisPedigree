@@ -25,6 +25,9 @@ const index = async (req, res) => {
           select: { dogs: true },
         },
       },
+      orderBy: {
+        name: "asc",
+      },
     });
     res.status(200).send(countries);
   } catch (error) {
