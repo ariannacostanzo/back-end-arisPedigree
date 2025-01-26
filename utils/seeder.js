@@ -213,6 +213,7 @@ const countries = [
   { name: "Spain", code: "ES" },
   { name: "Sri Lanka", code: "LK" },
   { name: "Sudan", code: "SD" },
+  { name: "South Sudan", code: "SS" },
   { name: "Suriname", code: "SR" },
   { name: "Svalbard and Jan Mayen", code: "SJ" },
   { name: "Swaziland", code: "SZ" },
