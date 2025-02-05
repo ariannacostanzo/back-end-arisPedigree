@@ -965,11 +965,11 @@ const createExampleDogs = () => {
     .catch((err) => console.error(err));
 };
 
-// createAllCountries();
-// createAllBreeds();
+createAllCountries();
+createAllBreeds();
 // createUser();
 // createAllDogs();
 // createExampleDogs();
-deleteAll("country");
+// deleteAll("country");
 
 // node .\utils\seeder.js
