@@ -18,7 +18,11 @@ app.use("/uploads", express.static("uploads"));
 require("dotenv").config();
 const port = 8000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://arispedigreeonline.netlify.app",
+  })
+);
 
 //per leggere i json
 app.use(express.json());
