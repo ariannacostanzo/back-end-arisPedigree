@@ -2,6 +2,11 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 //routes
 const countryRouter = require("./routes/countries.js");
@@ -17,12 +22,6 @@ app.use("/uploads", express.static("uploads"));
 //env
 require("dotenv").config();
 const port = 8000;
-
-app.use(
-  cors({
-    origin: "https://arispedigreeonline.netlify.app",
-  })
-);
 
 //per leggere i json
 app.use(express.json());
