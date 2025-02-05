@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const errorHandlerFunction = require("../utils/errorHandlerFunction");
 const prisma = new PrismaClient();
-const baseUrl = "http://localhost:8000";
+const baseUrl = "https://back-end-arispedigree-aq4t.onrender.com";
 const path = require("path");
 const fs = require("fs");
 const generateAncestorInclude = require("../utils/generateAncestorInclude");
@@ -177,7 +177,7 @@ const indexAll = async (req, res) => {
 
 const show = async (req, res) => {
   const id = parseInt(req.params.id);
-  try { 
+  try {
     const post = await prisma.dog.findUnique({
       where: { id },
       include: {
@@ -267,7 +267,6 @@ const update = async (req, res) => {
   };
 
   try {
-
     if (imageUrl) {
       data.image = imageUrl;
     } else {
