@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs/promises");
 
 //upload immagini
 const storage = multer.diskStorage({
@@ -16,6 +17,21 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+// Funzione per copiare l'immagine dalla cartella images
+const copyImage = (imageName) => {
+  const sourcePath = path.resolve(__dirname, "../images", imageName);
+  const destPath = path.resolve(__dirname, "../uploads", imageName);
+
+  // Verifica se l'immagine esiste nella cartella images
+  fs.copyFile(sourcePath, destPath, (err) => {
+    if (err) {
+      console.error("Error copying image: ", err);
+      return;
+    }
+    console.log(`Image ${imageName} copied to uploads/`);
+  });
+};
 
 module.exports = upload;
 
