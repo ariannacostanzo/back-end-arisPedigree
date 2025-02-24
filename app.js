@@ -2,7 +2,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const path = require("path");
 app.use(
   cors({
     origin: "https://arispedigreeonline.netlify.app",
@@ -19,10 +18,6 @@ const emailRouter = require("./routes/email.js");
 const auth = require("./middlewares/auth.js"); //da usare nella rotta di creazione cane
 
 app.use("/uploads", express.static("uploads"));
-console.log(
-  "Percorso file salvato:",
-  path.resolve(__dirname, "../uploads", req.file.filename)
-);
 
 //env
 require("dotenv").config();
